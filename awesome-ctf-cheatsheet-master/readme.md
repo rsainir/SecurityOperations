@@ -490,6 +490,11 @@ To track all Application & library calls of a program.
 
 ## Cryptography
 
+### JWT Tokens
+
+### Elliptic Curve Cryptography
+<a href="https://www.codecogs.com/eqnedit.php?latex=y^{2}=x^{3}&plus;ax&plus;b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?y^{2}=x^{3}&plus;ax&plus;b" title="y^{2}=x^{3}+ax+b" /></a>
+
 ### Caesar Cipher 
 
 If there is word `caesar` in the question or hint, it can be a substitution cipher.
