@@ -495,6 +495,12 @@ To track all Application & library calls of a program.
 ### Elliptic Curve Cryptography
 <a href="https://www.codecogs.com/eqnedit.php?latex=y^{2}=x^{3}&plus;ax&plus;b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?y^{2}=x^{3}&plus;ax&plus;b" title="y^{2}=x^{3}+ax+b" /></a>
 
+The Discrete Logarithm Problem (ECDL):
+
+Given points P, Q ∈ E(Fq), find an integer a, if it exists, such that Q = aP
+
+Many algorithms exist for very specific cases to crack the Discrete Logarithm Problem.
+
 ### Caesar Cipher 
 
 If there is word `caesar` in the question or hint, it can be a substitution cipher.
