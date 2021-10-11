@@ -527,6 +527,14 @@ To check for metadata of the Image files.
 > $ exiftool <FILE_NAME>
 ```
 
+To check last access time, modification time, and metadata change time
+
+```
+> $ ls -l
+> $ ls -u
+> $ ls -c
+```
+
 To search for particular string or flag in an Image file.
 
 ```
