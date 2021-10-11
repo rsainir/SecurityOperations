@@ -511,6 +511,16 @@ To solve One Time Pad, Use [OTP](http://rumkin.com/tools/cipher/otp.php).
 
 ## Forensics
 
+### Checking Times
+
+To check last access time, modification time, and metadata change time
+
+```
+> $ ls -l
+> $ ls -u
+> $ ls -c
+```
+
 ### Image File
 
 Try `file` comamnd on the image to learn more information.
@@ -525,14 +535,6 @@ To check for metadata of the Image files.
 
 ```
 > $ exiftool <FILE_NAME>
-```
-
-To check last access time, modification time, and metadata change time
-
-```
-> $ ls -l
-> $ ls -u
-> $ ls -c
 ```
 
 To search for particular string or flag in an Image file.
