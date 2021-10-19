@@ -1,7 +1,7 @@
-# CTF/OffSec Cheatsheet
+# CTF/OffSec Notes
 
 
-> A currated list of all capture the flag tips and strategies to solve Online CTF challenges and Hackthebox Machines.
+> A list to help keep track and provide a rough view of different exploits and tools that are available (for CTFs and Offensive Security/Red Team SecOps in general)
 
 
 
