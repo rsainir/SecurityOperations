@@ -66,7 +66,6 @@
     - [LM vs NT hashes in Windows](#lm-vs-nt-hashes-in-windows)
     - [Capture the Hash](#capture-the-hash)
     - [Mimikatz](#mimikatz)
-    - [](#)
     - [Reconnoitre](#reconnoitre)
 <!-- tocstop -->
 
