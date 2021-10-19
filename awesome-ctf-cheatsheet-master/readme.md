@@ -3,7 +3,7 @@
 
 > A list to help keep track and provide a rough view of different exploits and tools that are available (for CTFs and Offensive Security/Red Team SecOps in general)
 
-
+> Massive thank you to the awesome-ctf repo for a baseline template to start working with while geining more and more experience.
 
 ---
 
