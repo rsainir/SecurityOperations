@@ -667,6 +667,24 @@ To extract data hidden inside an image file protected with password.
 > $ steghide extract -sf <FILE_NAME>
 ```
 
+ImageMagick can be used to analyze further, color manipulation can be done here as well
+
+#### BMP Files: 
+- BitMap Info Header:
+``` 0E	14	4	the size of this header, in bytes (40)
+12	18	4	the bitmap width in pixels (signed integer)
+16	22	4	the bitmap height in pixels (signed integer)
+1A	26	2	the number of color planes (must be 1)
+1C	28	2	the number of bits per pixel, which is the color depth of the image. Typical values are 1, 4, 8, 16, 24 and 32.
+1E	30	4	the compression method being used. See the next table for a list of possible values
+22	34	4	the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
+26	38	4	the horizontal resolution of the image. (pixel per metre, signed integer)
+2A	42	4	the vertical resolution of the image. (pixel per metre, signed integer)
+2E	46	4	the number of colors in the color palette, or 0 to default to 2n
+32	50	4	the number of important colors used, or 0 when every color is important; generally ignored```
+
+Note: some images may be corrupt and require manual verification and fixing of header bytes (using XXD or Bless as a hex editor).
+
 ### Binwalk
 
 Binwalk helps to find data inside the image or sometimes if binwalk reports as zip Archive, we can rename the file to <FILE_NAME>.zip to find interesting data.
