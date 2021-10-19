@@ -911,13 +911,30 @@ Using binary mode to transfer files.
 ftp> put id_rsa.pub
 ftp> rename id_rsa.pub authorized_keys
 ```
-#### Windows Hacking
+#### Windows Pass the Hash/Pass the Ticket
+### LM vs NT hashes in Windows
+- NT hashes used for NTLM, NTLMv2, Kerberos
+- LM hashes used only with LM auth
 
+### Capture the Hash
+- Sniff hash via network packets
+- Utilize rogue SMB server to grab hash
+- Find hash cached in SAM file (%windir%\system32\config) or Emergency Disk File (%windir%\repair\RegBack)
+- If target machine is Domain Controller -> can dump every account hash in the domain
+
+- Can also dump locally with pwdump, fgdump, gsedump or Abel (Cain)
+- Remote dump via Metasploit, Cain, Canvas, Core Security
+- Use tool like Mimikatz to dump and inspect OFFLINE
 ### Mimikatz 
 Platform used for debug privilege, hash dumps, process manipulation, impersonation, and more
 
 Debug Privilege: access to LSASS: Local Security Authority Subsystem Service -> access tokens are managed by LSASS
 #### LSASS
+Controls authentication, access, access groups, etc.
+LM and NT hashes < 14 chars are cached on login either in:
+1. Security Account Managers file (sam)
+2. Active Directory 
+User mode process, %SystemRoot%\System32\Lsass.exe 
 1. Attempt to dump cached passwords using ```sekurlsa::logonpasswords```
 2. May need to use ```token::elevate``` for preivilege escalation
 3. ```lsadump::sam``` -> this command should give the LM/NTLM hashes (depends on version of Windows)
@@ -928,7 +945,8 @@ Debug Privilege: access to LSASS: Local Security Authority Subsystem Service -> 
 4. Manufacturing ticket:
 5. ```kerberos::golden /admin:Administrator /domain:f4rmc0rp.com /sid:S-1-1-12-123456789-1234567890-123456789 /krbtgt:deadbeefcafeface003133700009999 /ticket:Administrator.tkt``` Note: may need tyo specify group accesses to be enabled if Admin does not have access to some groups
 6. Execute the ticket by passing the ticket: ```kerberos::ptt```
-###
+7. 
+#### Windows Post Exploitation
 
 ###
 ### Reconnoitre
