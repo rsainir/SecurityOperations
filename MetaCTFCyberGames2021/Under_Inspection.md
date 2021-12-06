@@ -9,15 +9,11 @@ One of the Autobot accounts has a flag that they're trying to keep hidden from t
 # Solution
 
 inspect element -> network -> inspect/ html file has javaascript for client side authentication
-			
-				Lists all of the usernames and their passwords, as well as having a check to see which one is allowed to access the flag
-				
-				
-				Log in with :
-				{user: "Jazz", pwd: "MetaCTF{do_it_with_style_or_dont_do_it_at_all} 
+Lists all of the usernames and their passwords, as well as having a check to see which one is allowed to access the flag
 
+We see the following credentials iin plaintext:
+	**{user: "Jazz", pwd: "MetaCTF{do_it_with_style_or_dont_do_it_at_all} **
 
-Gives us the key **MetaCTF{encoding_is_N0T_the_same_as_encryption!!}**
 
 
 
