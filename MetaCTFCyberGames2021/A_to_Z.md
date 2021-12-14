@@ -8,7 +8,7 @@ yzhsufo_rh_nb_uze_wdziu
 
 Given that the ciphertext is a substituiton cipher, we can rule out other ciphers.
 
-Since we are directed to rearranging letters from A to Z, we try a Alphabetical substitution cipher on https://cryptii.com/pipes/alphabetical-substitution
+Since we are hinted towards rearranging letters from A to Z, we try a Alphabetical substitution cipher on https://cryptii.com/pipes/alphabetical-substitution
 
 Which yields the flag** MetaCTF{bashful_is_my_fav_dwarf}**
 
