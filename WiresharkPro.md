@@ -1,6 +1,6 @@
 
 
-# Tryhackme Advent of Winter day 9 - useful syntax for packet analysis
+#  useful packet analysis syntax from Tryhackme Advent of Winter 2021 (day 9)
 
 
 
